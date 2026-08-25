@@ -1,5 +1,30 @@
 import type { ReactNode } from 'react';
 
+export function ImagePlaceholder({
+  label,
+  ratio,
+  index = '01',
+  className = '',
+}: {
+  label: string;
+  ratio: string;
+  index?: string;
+  className?: string;
+}) {
+  return (
+    <div className={`image-placeholder ${className}`} role="img" aria-label={`${label}. Espaço reservado para imagem real.`}>
+      <span className="placeholder-corner placeholder-corner-a" />
+      <span className="placeholder-corner placeholder-corner-b" />
+      <div className="placeholder-center">
+        <span>ADICIONAR IMAGEM REAL</span>
+        <strong>{label}</strong>
+        <small>{ratio}</small>
+      </div>
+      <span className="placeholder-index">FELIX / IMAGE_{index}</span>
+    </div>
+  );
+}
+
 export function Logo({ flow = false }: { flow?: boolean }) {
   return (
     <a className="logo" href="/" aria-label="FELIX — início">

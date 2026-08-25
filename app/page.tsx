@@ -1,29 +1,4 @@
-import { ArrowLink, CTA, Eyebrow, SiteShell } from './components';
-
-function ImagePlaceholder({
-  label,
-  ratio,
-  index = '01',
-  className = '',
-}: {
-  label: string;
-  ratio: string;
-  index?: string;
-  className?: string;
-}) {
-  return (
-    <div className={`image-placeholder ${className}`} role="img" aria-label={`${label}. Espaço reservado para imagem real.`}>
-      <span className="placeholder-corner placeholder-corner-a" />
-      <span className="placeholder-corner placeholder-corner-b" />
-      <div className="placeholder-center">
-        <span>ADICIONAR IMAGEM REAL</span>
-        <strong>{label}</strong>
-        <small>{ratio}</small>
-      </div>
-      <span className="placeholder-index">FELIX / IMAGE_{index}</span>
-    </div>
-  );
-}
+import { ArrowLink, CTA, Eyebrow, ImagePlaceholder, SiteShell } from './components';
 
 const solutionCards = [
   { n: '01', title: 'Sites & Landing Pages', body: 'Páginas rápidas, claras e persuasivas para transformar pesquisa, campanha e indicação em contato.', href: '/sites', label: 'Conhecer sites' },
@@ -101,7 +76,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="content-section process-section"><div className="container">
+        <section className="content-section process-section editorial-process"><div className="container">
           <div className="section-intro"><Eyebrow>UM FLUXO, NÃO UM CONJUNTO DE FERRAMENTAS</Eyebrow><h2>Da primeira visita ao fechamento. Tudo conectado.</h2></div>
           <div className="process-flow">
             {[
@@ -115,19 +90,15 @@ export default function Home() {
           <ArrowLink href="/contato">Quero conectar minha operação</ArrowLink>
         </div></section>
 
-        <section className="flow-feature"><div className="container flow-feature-grid">
+        <section className="flow-feature editorial-flow-feature"><div className="container flow-feature-grid">
           <div><Eyebrow flow>PRODUTO FELIX</Eyebrow><h2>Sua operação comercial em um só lugar.</h2><p>O FelixFlow reúne conversas, contatos, funil, campanhas, automações e agentes de IA. Sua equipe acompanha o relacionamento inteiro em um único fluxo.</p>
             <div className="feature-list">{['Inbox integrada para atendimento','CRM com funis personalizáveis','Automações e follow-ups','Campanhas, métricas e UTMs','Agente de IA com base de conhecimento','Indicadores de vendas e atendimento'].map(item=><span key={item}><i />{item}</span>)}</div>
             <div className="hero-actions"><a className="button button-flow" href="/contato">Falar com um especialista <span>↗</span></a><a className="button button-ghost" href="/felixflow">Ver o FelixFlow</a></div>
           </div>
-          <div className="flow-ui" aria-label="Representação visual do FelixFlow">
-            <div className="flow-ui-bar"><span><i /> FELIXFLOW / PIPELINE</span><b>LIVE</b></div>
-            <div className="flow-ui-stats"><span><small>OPORTUNIDADES</small><b>24</b><i>+12%</i></span><span><small>EM NEGOCIAÇÃO</small><b>08</b><i>R$ 48k</i></span><span><small>CONVERSÃO</small><b>32%</b><i>ATIVO</i></span></div>
-            <div className="pipeline"><div><b>NOVOS</b><span><i />Clínica Lumen<small>há 2 min</small></span><span><i />Norte Consult<small>há 14 min</small></span></div><div><b>QUALIFICADOS</b><span><i />Vértice B2B<small>R$ 8.500</small></span></div><div><b>PROPOSTA</b><span><i />Orbe Saúde<small>Follow-up hoje</small></span><span><i />Ativa Eng.<small>R$ 12.000</small></span></div></div>
-          </div>
+          <ImagePlaceholder label="SCREENSHOT REAL DO FELIXFLOW" ratio="16:10 DESKTOP · DETALHE 4:5 MOBILE" index="07" className="flow-product-slot" />
         </div></section>
 
-        <section className="content-section why-section"><div className="container">
+        <section className="content-section why-section editorial-why"><div className="container">
           <div className="split-intro"><div><Eyebrow>ESTRATÉGIA ANTES DA FERRAMENTA</Eyebrow><h2>Entendemos aquisição, conversão e vendas antes de escrever uma linha de código.</h2></div><p>Tecnologia só gera resultado quando resolve o problema certo. Cada projeto começa pela oferta, pelo cliente, pelo processo comercial e pelo ponto que limita o crescimento.</p></div>
           <div className="content-grid cards cards-three">
             <article className="content-card"><span className="card-index">01</span><h3>Clareza comercial</h3><p>Cada página, tela e automação tem uma função dentro do processo.</p></article>
@@ -136,10 +107,10 @@ export default function Home() {
           </div>
         </div></section>
 
-        <section className="content-section section-surface"><div className="container">
+        <section className="content-section section-surface editorial-projects"><div className="container">
           <div className="section-intro"><Eyebrow>APLICAÇÕES</Eyebrow><h2>Diferentes desafios. A mesma lógica: transformar complexidade em fluxo.</h2></div>
           <div className="content-grid projects">
-            {['Presença digital para clínica','Operação comercial para consultoria','Agente de IA para empresa de serviços'].map((title,index)=><article className="content-card" key={title}><span className="demo-tag">PROJETO DEMONSTRATIVO</span><span className="card-index">0{index+1}</span><h3>{title}</h3><p>{['Site orientado a serviços, autoridade e agendamento, conectado ao WhatsApp.','Funil personalizado, central de contatos, follow-ups e painel de oportunidades.','Atendimento inicial, qualificação, agendamento e transferência para a equipe.'][index]}</p><ArrowLink href="/projetos">Ver aplicação</ArrowLink></article>)}
+            {['Presença digital para clínica','Operação comercial para consultoria','Agente de IA para empresa de serviços'].map((title,index)=><article className="content-card" key={title}><ImagePlaceholder label={`PROJETO REAL / ${title.toUpperCase()}`} ratio="16:10" index={String(index+8).padStart(2,'0')} className="project-image-slot" /><div className="project-card-copy"><span className="card-index">0{index+1}</span><h3>{title}</h3><p>{['Site orientado a serviços, autoridade e agendamento, conectado ao WhatsApp.','Funil personalizado, central de contatos, follow-ups e painel de oportunidades.','Atendimento inicial, qualificação, agendamento e transferência para a equipe.'][index]}</p><ArrowLink href="/projetos">Ver aplicação</ArrowLink></div></article>)}
           </div>
         </div></section>
 

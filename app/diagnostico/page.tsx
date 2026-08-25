@@ -16,8 +16,8 @@ export default function DiagnosticoPage() {
     ['Presença digital','Site, redes e canais de contato conduzem para a mesma direção?'],
   ];
   return (
-    <SiteShell><main>
-      <section className="form-page flow-grid"><div className="container form-page-head"><Eyebrow>DIAGNÓSTICO GRATUITO</Eyebrow><h1>Seu site está ajudando o cliente a escolher você — ou apenas ocupando um endereço?</h1><p>Receba uma análise inicial da sua presença digital e descubra pontos que podem estar reduzindo clareza, autoridade e conversão.</p></div></section>
+    <SiteShell><main className="form-editorial">
+      <section className="form-page"><div className="container form-page-head"><Eyebrow>DIAGNÓSTICO GRATUITO</Eyebrow><h1>Seu site está ajudando o cliente a <em>escolher você?</em></h1><p>Receba uma análise inicial da sua presença digital e descubra pontos que podem estar reduzindo clareza, autoridade e conversão.</p></div></section>
       <section className="content-section"><div className="container diagnosis-layout">
         <div><Eyebrow>O QUE SERÁ ANALISADO</Eyebrow><h2>Uma visão prática do que o visitante encontra.</h2><div className="check-list">{checks.map(([title,body],i)=><article key={title}><span>{String(i+1).padStart(2,'0')}</span><div><h3>{title}</h3><p>{body}</p></div></article>)}</div></div>
         <div className="form-sticky"><LeadForm kind="diagnostico" /></div>

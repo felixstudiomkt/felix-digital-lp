@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { ArrowLink, CTA, Eyebrow, SiteShell } from '../components';
+import { ArrowLink, CTA, Eyebrow, ImagePlaceholder, SiteShell } from '../components';
 import { pages, type PageBlock } from '../site-data';
 
 export function generateStaticParams() {
@@ -11,22 +11,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const page = pages[slug];
   return page ? { title: page.title, description: page.description, openGraph: { title: page.title, description: page.description } } : {};
-}
-
-function SystemPreview({ flow = false }: { flow?: boolean }) {
-  return (
-    <div className={`system-preview ${flow ? 'preview-flow' : ''}`} aria-hidden="true">
-      <div className="preview-bar"><span><i /> LIVE WORKSPACE</span><b>FELIX / 01</b></div>
-      <div className="preview-body">
-        <div className="preview-sidebar"><span /><span /><span /><span /><span /></div>
-        <div className="preview-main">
-          <div className="preview-kpis"><span><b>24</b><i /></span><span><b>08</b><i /></span><span><b>72%</b><i /></span></div>
-          <div className="preview-chart"><span /><span /><span /><span /><span /><span /><i /></div>
-          <div className="preview-rows"><span><i /><b /></span><span><i /><b /></span><span><i /><b /></span></div>
-        </div>
-      </div>
-    </div>
-  );
 }
 
 function Block({ block, index }: { block: PageBlock; index: number }) {
@@ -41,11 +25,14 @@ function Block({ block, index }: { block: PageBlock; index: number }) {
         <div className={`content-grid ${block.layout ?? 'cards'}`}>
           {block.items.map((item, itemIndex) => (
             <article className="content-card" key={item.title}>
+              {block.layout === 'projects' && <ImagePlaceholder label={`PROJETO REAL / ${item.title.toUpperCase()}`} ratio="16:10" index={String(itemIndex + 2).padStart(2, '0')} className="project-image-slot" />}
               {item.tag && <span className="demo-tag">{item.tag}</span>}
-              <span className="card-index">{String(itemIndex + 1).padStart(2, '0')}</span>
-              <h3>{item.title}</h3>
-              {item.body && <p>{item.body}</p>}
-              {block.layout === 'projects' && <ArrowLink href="/contato">Ver aplicação</ArrowLink>}
+              <div className={block.layout === 'projects' ? 'project-card-copy' : ''}>
+                <span className="card-index">{String(itemIndex + 1).padStart(2, '0')}</span>
+                <h3>{item.title}</h3>
+                {item.body && <p>{item.body}</p>}
+                {block.layout === 'projects' && <ArrowLink href="/contato">Ver aplicação</ArrowLink>}
+              </div>
             </article>
           ))}
         </div>
@@ -69,8 +56,8 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
 
   return (
     <SiteShell>
-      <main>
-        <section className={`page-hero flow-grid ${flow ? 'flow-hero' : ''}`}>
+      <main className="internal-editorial">
+        <section className={`page-hero editorial-page-hero ${flow ? 'flow-hero' : ''}`}>
           <div className="container page-hero-grid">
             <div>
               <Eyebrow flow={flow}>{page.eyebrow}</Eyebrow>
@@ -81,9 +68,9 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
                 {page.secondary && <a className="button button-ghost" href="/diagnostico">{page.secondary}</a>}
               </div>
             </div>
-            <SystemPreview flow={flow} />
+            <ImagePlaceholder label={slug === 'sobre' ? 'RETRATO REAL / MATHEUS FELIX' : flow ? 'SCREENSHOT REAL / FELIXFLOW' : `IMAGEM REAL / ${page.eyebrow}`} ratio={slug === 'sobre' ? '4:5' : '16:10 DESKTOP · 4:5 MOBILE'} index="01" className="page-hero-image-slot" />
           </div>
-          {page.metric && <div className="page-signal"><div className="container"><span><i /> SISTEMA ATIVO</span><b>{page.metric}</b></div></div>}
+          {page.metric && <div className="page-signal"><div className="container"><span><i /> FELIX / ESPECIALIDADE</span><b>{page.metric}</b></div></div>}
         </section>
         {page.blocks.map((block, index) => <Block block={block} index={index} key={block.title} />)}
         {page.faqs && (
