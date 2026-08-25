@@ -1,28 +1,26 @@
 import { ArrowLink, CTA, Eyebrow, SiteShell } from './components';
 
-const stages = [
-  { label: 'VISITA', tone: 'blue' },
-  { label: 'LEAD', tone: 'blue' },
-  { label: 'ATENDIMENTO', tone: 'lime' },
-  { label: 'FUNIL', tone: 'blue' },
-  { label: 'FOLLOW-UP', tone: 'lime' },
-  { label: 'VENDA', tone: 'lime' },
-];
-
-function FlowPanel() {
+function ImagePlaceholder({
+  label,
+  ratio,
+  index = '01',
+  className = '',
+}: {
+  label: string;
+  ratio: string;
+  index?: string;
+  className?: string;
+}) {
   return (
-    <div className="flow-panel" aria-label="Fluxo comercial conectado da visita à venda">
-      <div className="panel-topline"><span className="status"><i /> OPERAÇÃO CONECTADA</span><span className="panel-id">FELIX / FLOW_01</span></div>
-      <div className="flow-track">
-        {stages.map((stage, index) => (
-          <div className="flow-stage" key={stage.label}>
-            <span className={`flow-node ${stage.tone}`}><i /><b>{String(index + 1).padStart(2, '0')}</b></span>
-            <strong>{stage.label}</strong>
-            {index < stages.length - 1 && <span className="connector" aria-hidden="true" />}
-          </div>
-        ))}
+    <div className={`image-placeholder ${className}`} role="img" aria-label={`${label}. Espaço reservado para imagem real.`}>
+      <span className="placeholder-corner placeholder-corner-a" />
+      <span className="placeholder-corner placeholder-corner-b" />
+      <div className="placeholder-center">
+        <span>ADICIONAR IMAGEM REAL</span>
+        <strong>{label}</strong>
+        <small>{ratio}</small>
       </div>
-      <div className="panel-metrics"><span><b>1 fluxo</b> para acompanhar a oportunidade inteira</span><span className="live"><i /> SISTEMA ATIVO</span></div>
+      <span className="placeholder-index">FELIX / IMAGE_{index}</span>
     </div>
   );
 }
@@ -37,41 +35,71 @@ const solutionCards = [
 export default function Home() {
   return (
     <SiteShell>
-      <main>
-        <section className="hero flow-grid">
-          <div className="flow-line flow-line-a" /><div className="flow-line flow-line-b" />
-          <div className="container hero-copy">
-            <Eyebrow>TECNOLOGIA APLICADA A VENDAS E OPERAÇÃO</Eyebrow>
-            <h1>Sites que vendem.<br />Sistemas que operam.<br /><em>IA que escala.</em></h1>
-            <p className="hero-lead">A FELIX conecta presença digital, aquisição de clientes, atendimento e operação comercial para sua empresa crescer com menos tarefas manuais e mais controle.</p>
-            <div className="hero-actions"><a className="button" href="/contato">Falar com a FELIX <span>↗</span></a><a className="button button-ghost" href="/diagnostico">Solicitar diagnóstico gratuito</a></div>
-            <p className="microcopy">Conte o que precisa funcionar melhor. Nós mostramos o próximo passo.</p>
+      <main className="home-editorial">
+        <section className="editorial-hero">
+          <div className="editorial-glow" aria-hidden="true" />
+          <div className="container editorial-hero-copy">
+            <div className="editorial-hero-meta">
+              <Eyebrow>ESTÚDIO DE TECNOLOGIA APLICADA A NEGÓCIOS</Eyebrow>
+              <span>BRASIL · EUROPA / 2026</span>
+            </div>
+            <h1>Sites que <em>vendem.</em><br />Sistemas que operam.<br />IA que <i>escala.</i></h1>
+            <div className="editorial-hero-bottom">
+              <p>A FELIX conecta presença digital, aquisição, atendimento e operação comercial para transformar complexidade em crescimento.</p>
+              <div>
+                <a className="button editorial-button" href="/contato">Começar um projeto <span>↗</span></a>
+                <a className="editorial-text-link" href="#solucoes">Conhecer a FELIX <span>↓</span></a>
+              </div>
+            </div>
           </div>
-          <div className="container hero-system"><FlowPanel /></div>
+          <div className="container editorial-hero-media">
+            <ImagePlaceholder label="IMAGEM PRINCIPAL / PROJETO EM DESTAQUE" ratio="16:10 DESKTOP · RECORTE 4:5 MOBILE" className="hero-image-slot" />
+          </div>
         </section>
 
-        <section className="authority"><div className="container authority-grid">
-          <div><strong>+120</strong><span>clientes atendidos</span></div>
-          <div><strong>5</strong><span>anos de mercado</span></div>
-          <div><strong>4</strong><span>mercados conectados</span></div>
-          <p>BRASIL · REINO UNIDO · PORTUGAL · FRANÇA</p>
-        </div></section>
-
-        <section className="content-section problem-section"><div className="container">
-          <div className="split-intro"><div><Eyebrow>CRESCER NÃO DEVERIA AUMENTAR O CAOS</Eyebrow><h2>Ferramentas isoladas criam trabalho. Não uma operação.</h2></div><p>Quando cada etapa funciona separadamente, sua equipe perde tempo conectando informações que já deveriam chegar conectadas.</p></div>
-          <div className="content-grid cards cards-three">
-            <article className="content-card"><span className="card-index">01</span><h3>Leads sem resposta</h3><p>O interesse existe, mas a demora no primeiro contato reduz a chance de conversão.</p></article>
-            <article className="content-card"><span className="card-index">02</span><h3>Processos manuais</h3><p>A equipe repete tarefas, move dados e envia mensagens que poderiam acontecer automaticamente.</p></article>
-            <article className="content-card"><span className="card-index">03</span><h3>Decisões sem contexto</h3><p>Sem rastreamento, fica difícil saber quais canais e ações realmente geram vendas.</p></article>
+        <section className="editorial-proof">
+          <div className="editorial-proof-track" aria-label="Indicadores da FELIX">
+            <span>+120 CLIENTES ATENDIDOS</span><i />
+            <span>5 ANOS DE MERCADO</span><i />
+            <span>BRASIL · REINO UNIDO · PORTUGAL · FRANÇA</span><i />
+            <span>ESTRATÉGIA · DESIGN · TECNOLOGIA</span>
           </div>
-        </div></section>
+        </section>
 
-        <section className="content-section section-surface" id="solucoes"><div className="container">
-          <div className="section-intro"><Eyebrow>DA PRESENÇA À OPERAÇÃO</Eyebrow><h2>A tecnologia certa para cada etapa do crescimento.</h2><p>Não entregamos peças desconectadas. Construímos a estrutura digital que conduz uma oportunidade desde a primeira visita até o relacionamento comercial.</p></div>
-          <div className="solutions-grid">
-            {solutionCards.map((card) => <article className={card.flow ? 'solution-card flow-card' : 'solution-card'} key={card.title}><span>{card.n}</span><i /><h3>{card.title}</h3><p>{card.body}</p><ArrowLink href={card.href}>{card.label}</ArrowLink></article>)}
+        <section className="editorial-manifesto">
+          <div className="container editorial-manifesto-head">
+            <Eyebrow>CRESCER NÃO DEVERIA AUMENTAR O CAOS</Eyebrow>
+            <h2>O digital precisa fazer o negócio <em>fluir.</em></h2>
+            <div className="manifesto-copy">
+              <span>01 / MANIFESTO</span>
+              <p>Quando site, atendimento e operação funcionam separadamente, a equipe gasta energia conectando o que já deveria nascer conectado. A FELIX desenha essa jornada como uma única experiência.</p>
+            </div>
           </div>
-        </div></section>
+          <div className="container editorial-manifesto-media">
+            <ImagePlaceholder label="BASTIDORES / EQUIPE / PROCESSO" ratio="3:2 DESKTOP · RECORTE LIVRE MOBILE" index="02" className="manifesto-image-slot" />
+            <p>Estratégia para organizar a mensagem.<br />Design para tornar a escolha clara.<br />Tecnologia para sustentar o crescimento.</p>
+          </div>
+        </section>
+
+        <section className="editorial-solutions" id="solucoes">
+          <div className="container editorial-solutions-head">
+            <div><Eyebrow>DA PRESENÇA À OPERAÇÃO</Eyebrow><h2>Quatro frentes.<br />Um único fluxo.</h2></div>
+            <p>Não entregamos peças desconectadas. Construímos a estrutura digital que conduz uma oportunidade da primeira visita ao relacionamento comercial.</p>
+          </div>
+          <div className="container editorial-solutions-grid">
+            {solutionCards.map((card, index) => (
+              <article className={card.flow ? 'editorial-solution editorial-solution-flow' : 'editorial-solution'} key={card.title}>
+                <ImagePlaceholder label={`VISUAL REAL / ${card.title.toUpperCase()}`} ratio="16:10" index={String(index + 3).padStart(2, '0')} className="solution-image-slot" />
+                <div className="editorial-solution-copy">
+                  <span>{card.n}</span>
+                  <h3>{card.title}</h3>
+                  <p>{card.body}</p>
+                  <ArrowLink href={card.href}>{card.label}</ArrowLink>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
 
         <section className="content-section process-section"><div className="container">
           <div className="section-intro"><Eyebrow>UM FLUXO, NÃO UM CONJUNTO DE FERRAMENTAS</Eyebrow><h2>Da primeira visita ao fechamento. Tudo conectado.</h2></div>
