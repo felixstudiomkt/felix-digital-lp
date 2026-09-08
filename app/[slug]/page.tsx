@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLink, CTA, Eyebrow, ImagePlaceholder, SiteShell } from '../components';
 import { pages, type PageBlock } from '../site-data';
@@ -64,8 +65,8 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
               <h1>{page.headline}</h1>
               <p className="hero-lead">{page.lead}</p>
               <div className="hero-actions">
-                <a className={`button ${flow ? 'button-flow' : ''}`} href="/contato">{page.primary}<span>↗</span></a>
-                {page.secondary && <a className="button button-ghost" href="/diagnostico">{page.secondary}</a>}
+                <Link className={`button ${flow ? 'button-flow' : ''}`} href="/contato">{page.primary}<span>↗</span></Link>
+                {page.secondary && <Link className="button button-ghost" href="/diagnostico">{page.secondary}</Link>}
               </div>
             </div>
             <ImagePlaceholder label={slug === 'sobre' ? 'RETRATO REAL / MATHEUS FELIX' : flow ? 'SCREENSHOT REAL / FELIXFLOW' : `IMAGEM REAL / ${page.eyebrow}`} ratio={slug === 'sobre' ? '4:5' : '16:10 DESKTOP · 4:5 MOBILE'} index="01" className="page-hero-image-slot" />

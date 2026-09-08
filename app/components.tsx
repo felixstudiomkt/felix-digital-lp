@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import Link from 'next/link';
 
 export function ImagePlaceholder({
   label,
@@ -27,11 +28,11 @@ export function ImagePlaceholder({
 
 export function Logo({ flow = false }: { flow?: boolean }) {
   return (
-    <a className="logo" href="/" aria-label="FELIX — início">
+    <Link className="logo" href="/" aria-label="FELIX — início">
       <span>feli</span>
       <img src={flow ? '/brand/logo-x-flow-lime.svg' : '/brand/logo-x-signal-blue.svg'} alt="x" />
       {flow && <b>Flow</b>}
-    </a>
+    </Link>
   );
 }
 
@@ -42,30 +43,27 @@ export function Header() {
         <Logo />
         <nav aria-label="Navegação principal">
           <details className="solutions-menu">
-            <summary>Soluções <span>⌄</span></summary>
+            <summary>Formatos <span>⌄</span></summary>
             <div>
-              <a href="/sites">Sites & Landing Pages<small>Presença que converte</small></a>
-              <a href="/sistemas-e-automacoes">Sistemas & Automações<small>Operação sem tarefas soltas</small></a>
-              <a href="/agentes-de-ia">Agentes de IA<small>Atendimento em movimento</small></a>
+              <a href="#servicos">Sites & Landing Pages<small>Presença que converte</small></a>
+              <a href="#servicos">Lojas virtuais<small>Vitrine para vender melhor</small></a>
+              <a href="#servicos">Agendamento e orçamento<small>Próximo passo sem atrito</small></a>
             </div>
           </details>
-          <a href="/felixflow">FelixFlow</a>
-          <a href="/projetos">Projetos</a>
-          <a href="/sobre">Sobre</a>
-          <a href="/diagnostico">Diagnóstico gratuito</a>
+          <a href="#servicos">Soluções</a>
+          <a href="#portfolio">Portfólio</a>
+          <a href="#processo">Como funciona</a>
+          <a href="#faq">Dúvidas</a>
         </nav>
-        <a className="button button-small" href="/contato">Falar com a FELIX <span>↗</span></a>
+        <a className="button button-small" href="#diagnostico">Falar com a FELIX <span>↗</span></a>
         <details className="mobile-menu">
           <summary aria-label="Abrir menu"><span /><span /></summary>
           <div>
-            <a href="/sites">Sites & Landing Pages</a>
-            <a href="/sistemas-e-automacoes">Sistemas & Automações</a>
-            <a href="/agentes-de-ia">Agentes de IA</a>
-            <a href="/felixflow">FelixFlow</a>
-            <a href="/projetos">Projetos</a>
-            <a href="/sobre">Sobre</a>
-            <a href="/diagnostico">Diagnóstico gratuito</a>
-            <a className="button" href="/contato">Falar com a FELIX</a>
+            <a href="#servicos">Soluções</a>
+            <a href="#portfolio">Portfólio</a>
+            <a href="#processo">Como funciona</a>
+            <a href="#faq">Dúvidas</a>
+            <a className="button" href="#diagnostico">Falar com a FELIX</a>
           </div>
         </details>
       </div>
@@ -81,7 +79,7 @@ export function ArrowLink({ href, children }: { href: string; children: ReactNod
   return <a className="arrow-link" href={href}>{children}<span>↗</span></a>;
 }
 
-export function CTA({ title, body, primary = 'Falar com a FELIX', secondary = 'Iniciar um projeto' }: { title: string; body?: string; primary?: string; secondary?: string | false }) {
+export function CTA({ title, body, primary = 'Falar com a FELIX', primaryHref = '/contato', secondary = 'Iniciar um projeto', secondaryHref = '/diagnostico' }: { title: string; body?: string; primary?: string; primaryHref?: string; secondary?: string | false; secondaryHref?: string }) {
   return (
     <section className="final-cta flow-grid">
       <div className="container">
@@ -89,8 +87,8 @@ export function CTA({ title, body, primary = 'Falar com a FELIX', secondary = 'I
         <h2>{title}</h2>
         {body && <p>{body}</p>}
         <div className="hero-actions">
-          <a className="button" href="/contato">{primary}<span>↗</span></a>
-          {secondary && <a className="button button-ghost" href="/diagnostico">{secondary}</a>}
+          <a className="button" href={primaryHref}>{primary}<span>↗</span></a>
+          {secondary && <a className="button button-ghost" href={secondaryHref}>{secondary}</a>}
         </div>
       </div>
     </section>
@@ -98,15 +96,15 @@ export function CTA({ title, body, primary = 'Falar com a FELIX', secondary = 'I
 }
 
 export function Footer() {
-  const whatsapp = 'https://wa.me/?text=Ol%C3%A1%21%20Conheci%20a%20FELIX%20pelo%20site%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto.';
+  const whatsapp = 'https://wa.me/554598554766?text=Ol%C3%A1%2C%20conheci%20a%20FELIX%20pelo%20site%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto.';
   return (
     <>
       <footer>
         <div className="container footer-grid">
           <div className="footer-brand"><Logo /><p>Sites que vendem. Sistemas que operam. IA que escala.</p><span>TECNOLOGIA APLICADA A VENDAS E OPERAÇÃO.</span></div>
-          <div><strong>SOLUÇÕES</strong><a href="/sites">Sites & Landing Pages</a><a href="/sistemas-e-automacoes">Sistemas & Automações</a><a href="/agentes-de-ia">Agentes de IA</a><a href="/felixflow">FelixFlow</a></div>
-          <div><strong>EMPRESA</strong><a href="/projetos">Projetos</a><a href="/sobre">Sobre</a><a href="/diagnostico">Diagnóstico gratuito</a><a href="/contato">Contato</a></div>
-          <div><strong>COMEÇAR</strong><a href={whatsapp}>WhatsApp</a><a href="/diagnostico">Analisar presença digital</a><a href="/contato">Iniciar projeto</a></div>
+          <div><strong>SOLUÇÕES</strong><a href="#servicos">Sites institucionais</a><a href="#servicos">Landing pages</a><a href="#servicos">Lojas virtuais</a><a href="#servicos">Agendamento e orçamento</a></div>
+          <div><strong>EXPLORAR</strong><a href="#portfolio">Portfólio</a><a href="#processo">Como funciona</a><a href="#faq">Dúvidas</a><a href="#diagnostico">Orçamento</a></div>
+          <div><strong>COMEÇAR</strong><a href={whatsapp}>WhatsApp</a><a href="#diagnostico">Descobrir o melhor formato</a><a href="#diagnostico">Iniciar projeto</a></div>
         </div>
         <div className="container footer-bottom"><span>© 2026 FELIX</span><span>CASCAVEL · PARANÁ · BRASIL</span></div>
       </footer>

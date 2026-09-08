@@ -5,11 +5,11 @@ const siteOrigin = process.env.SITE_URL || 'http://localhost:3000';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteOrigin),
-  title: 'FELIX | Sites, Sistemas, Automação e IA',
-  description: 'Criamos sites que convertem, sistemas que organizam e agentes de IA que aceleram vendas e atendimento. Conheça a FELIX e o FelixFlow.',
+  title: 'FELIX | Sites que fazem sentido para o seu negócio',
+  description: 'Sites institucionais, landing pages, lojas virtuais e sites com agendamento ou orçamento para profissionais, empresas locais e prestadores de serviços.',
   openGraph: {
-    title: 'FELIX | Sites, Sistemas, Automação e IA',
-    description: 'Sites que vendem. Sistemas que operam. IA que escala.',
+    title: 'FELIX | Sites que fazem sentido para o seu negócio',
+    description: 'Sites, landing pages e lojas virtuais para transformar presença digital em oportunidades.',
     type: 'website',
     locale: 'pt_BR',
     images: [{ url: '/og.png', width: 1200, height: 630, alt: 'FELIX — Sites que vendem. Sistemas que operam. IA que escala.' }],
