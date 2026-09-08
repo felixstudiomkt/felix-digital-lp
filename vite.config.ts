@@ -36,6 +36,13 @@ const localBindingConfig = {
       database_id: LEADS_DATABASE_ID,
     },
   ],
+  // Notificação de lead novo. Enviar para um endereço verificado da própria
+  // conta é gratuito em qualquer plano, mesmo só com Email Routing ativo.
+  // destination_address trava o binding nesse endereço: mesmo que algo no
+  // código tente outro destinatário, o Worker não consegue enviar para fora.
+  send_email: [
+    { name: 'EMAIL', destination_address: 'felixstudio.mkt@gmail.com' },
+  ],
   r2_buckets: r2
     ? [
         {

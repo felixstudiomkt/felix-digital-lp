@@ -5,6 +5,13 @@
 declare namespace Cloudflare {
   interface Env {
     DB: D1Database;
+    /** Notificação de lead novo. Travado em felixstudio.mkt@gmail.com pelo binding. */
+    EMAIL: {
+      send(mensagem: {
+        to: string; from: string; subject: string;
+        text?: string; html?: string;
+      }): Promise<void>;
+    };
     /** Endpoint HTTP de criação de lead no DGFlow. */
     DGFLOW_API_URL?: string;
     /** Token do DGFlow. Instalado como secret: `wrangler secret put DGFLOW_TOKEN`. */

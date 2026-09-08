@@ -41,6 +41,28 @@ type LeadGravado = {
   prazo: string | null;
 };
 
+// O e-mail é lido no celular, entre uma coisa e outra. Mandar "offer" e "soon"
+// obrigaria a consultar o código para entender o lead — então traduzimos aqui.
+const ROTULO_OBJETIVO: Record<string, string> = {
+  present: 'Apresentar o negócio e os serviços',
+  offer: 'Divulgar uma oferta ou campanha',
+  sell: 'Vender produtos pela internet',
+  schedule: 'Receber agendamentos ou orçamentos',
+};
+const ROTULO_FUNCIONALIDADE: Record<string, string> = {
+  contact: 'Conhecer o negócio e entrar em contato',
+  checkout: 'Escolher produtos e pagar pelo site',
+  booking: 'Solicitar ou marcar um horário',
+  quote: 'Preencher um pedido de orçamento',
+  unsure: 'Ainda precisa de orientação',
+};
+const ROTULO_PRAZO: Record<string, string> = {
+  soon: 'o quanto antes',
+  month: 'nos próximos 30 dias',
+  later: 'entre 1 e 3 meses',
+  research: 'ainda pesquisando',
+};
+
 function texto(valor: unknown, limite: number) {
   return typeof valor === 'string' ? valor.trim().slice(0, limite) : '';
 }
@@ -90,7 +112,9 @@ export async function registrarLead(entrada: LeadEntrada): Promise<{ id: string 
     )
     .run();
 
-  waitUntil(enviarParaCrm(lead));
+  // allSettled para que uma falha não cancele a outra: o e-mail precisa sair
+  // mesmo com o CRM fora, e vice-versa.
+  waitUntil(Promise.allSettled([enviarParaCrm(lead), notificarPorEmail(lead, origem)]));
 
   return { id: lead.id };
 }
@@ -99,6 +123,76 @@ export async function registrarLead(entrada: LeadEntrada): Promise<{ id: string 
 export async function marcarWhatsappAberto(id: string): Promise<void> {
   if (typeof id !== 'string' || id.length !== 36) return;
   await env.DB.prepare('UPDATE leads SET whatsapp_aberto = 1 WHERE id = ?').bind(id).run();
+}
+
+/** 45999887766 -> 5545999887766, para o link do WhatsApp funcionar no clique. */
+function paraWhatsapp(telefone: string): string {
+  const digitos = telefone.replace(/\D/g, '');
+  return digitos.startsWith('55') ? digitos : `55${digitos}`;
+}
+
+function escapar(valor: string): string {
+  return valor.replace(/[&<>"]/g, (c) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c] as string);
+}
+
+/**
+ * Avisa por e-mail assim que um lead entra, para não depender de ninguém ficar
+ * olhando o WhatsApp. Roda depois da resposta, via waitUntil — uma falha aqui
+ * não afeta o lead, que já está gravado.
+ */
+async function notificarPorEmail(lead: LeadGravado, origem: string): Promise<void> {
+  const prazo = lead.prazo ? ROTULO_PRAZO[lead.prazo] : null;
+  const whatsapp = `https://wa.me/${paraWhatsapp(lead.telefone)}`;
+
+  let quando: string;
+  try {
+    quando = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+  } catch {
+    quando = new Date().toISOString();
+  }
+
+  const linhas: Array<[string, string]> = [
+    ['WhatsApp', lead.telefone],
+    ['Negócio', lead.negocio ?? '—'],
+    ['E-mail', lead.email ?? '—'],
+    ['Objetivo', lead.objetivo ? ROTULO_OBJETIVO[lead.objetivo] : '—'],
+    ['O visitante precisa', lead.funcionalidade ? ROTULO_FUNCIONALIDADE[lead.funcionalidade] : '—'],
+    ['Quer começar', prazo ?? '—'],
+    ['Indicação do quiz', lead.indicacao ?? '—'],
+    ['Observações', lead.observacoes ?? '—'],
+    ['Origem', origem === 'diagnostico' ? 'Página de diagnóstico' : 'Página de contato'],
+    ['Recebido em', quando],
+  ];
+
+  const texto = [
+    `${lead.nome} pediu um orçamento no site.`,
+    '',
+    ...linhas.map(([rotulo, valor]) => `${rotulo}: ${valor}`),
+    '',
+    `Falar agora: ${whatsapp}`,
+  ].join('\n');
+
+  const html = `<div style="font-family:system-ui,-apple-system,Segoe UI,sans-serif;max-width:560px">
+<h2 style="margin:0 0 4px;font-size:18px">${escapar(lead.nome)}</h2>
+<p style="margin:0 0 16px;color:#555;font-size:14px">pediu um orçamento no site${prazo ? ` e quer começar <strong>${escapar(prazo)}</strong>` : ''}.</p>
+<table style="border-collapse:collapse;font-size:14px;width:100%">
+${linhas.map(([rotulo, valor]) => `<tr><td style="padding:6px 12px 6px 0;color:#666;vertical-align:top;white-space:nowrap">${escapar(rotulo)}</td><td style="padding:6px 0">${escapar(valor)}</td></tr>`).join('\n')}
+</table>
+<p style="margin:20px 0 0"><a href="${whatsapp}" style="display:inline-block;background:#25D366;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none;font-size:14px">Falar no WhatsApp</a></p>
+</div>`;
+
+  try {
+    await env.EMAIL.send({
+      to: 'felixstudio.mkt@gmail.com',
+      from: 'leads@felixdigital.online',
+      subject: `Lead novo: ${lead.nome}${prazo ? ` — quer começar ${prazo}` : ''}`,
+      text: texto,
+      html,
+    });
+  } catch (erro) {
+    console.error('falha ao notificar lead por e-mail', lead.id, erro);
+  }
 }
 
 /**
