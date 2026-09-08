@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import { marcarWhatsappAberto, registrarLead } from './actions';
 import styles from './LeadForm.module.css';
 
 const questions = [
@@ -43,12 +44,15 @@ export function LeadForm({ kind }: { kind: 'diagnostico' | 'projeto' }) {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState(['', '', '']);
   const [preparedUrl, setPreparedUrl] = useState('');
+  const [salvando, setSalvando] = useState(false);
   const heading = useRef<HTMLHeadingElement>(null);
+  const leadId = useRef<string | null>(null);
   const result = recommend(answers[0], answers[1]);
 
   function goTo(next: number) {
     setStep(next);
     setPreparedUrl('');
+    leadId.current = null;
     requestAnimationFrame(() => heading.current?.focus({ preventScroll: true }));
   }
 
@@ -77,7 +81,7 @@ export function LeadForm({ kind }: { kind: 'diagnostico' | 'projeto' }) {
       ) : (
         <>
           <div className={styles.recommendation}><span>INDICAÇÃO INICIAL</span><h4>{result.title}</h4><p>{result.description}</p><small>Nós confirmamos o formato e o escopo na conversa. Esta indicação não é um orçamento fechado.</small></div>
-          <form onSubmit={(event) => {
+          <form onSubmit={async (event) => {
             event.preventDefault();
             const data = new FormData(event.currentTarget);
             const message = [
@@ -90,7 +94,31 @@ export function LeadForm({ kind }: { kind: 'diagnostico' | 'projeto' }) {
               `E-mail: ${data.get('email') || 'Não informado'}`,
               `Observações: ${data.get('challenge') || 'Não informadas'}`,
             ].join('\n');
-            setPreparedUrl(`https://wa.me/554598554766?text=${encodeURIComponent(message)}`);
+            const url = `https://wa.me/554598554766?text=${encodeURIComponent(message)}`;
+            setSalvando(true);
+            try {
+              const registro = await registrarLead({
+                origem: kind,
+                objetivo: answers[0],
+                funcionalidade: answers[1],
+                prazo: answers[2],
+                indicacao: result.title,
+                nome: String(data.get('name') ?? ''),
+                telefone: String(data.get('phone') ?? ''),
+                negocio: String(data.get('company') ?? ''),
+                email: String(data.get('email') ?? ''),
+                observacoes: String(data.get('challenge') ?? ''),
+                isca: String(data.get('isca') ?? ''),
+              });
+              leadId.current = registro.id;
+            } catch {
+              // Falha ao registrar não pode barrar o contato: o pedido segue
+              // para o WhatsApp de qualquer forma. Perder o registro é ruim;
+              // perder o cliente é pior.
+            } finally {
+              setSalvando(false);
+              setPreparedUrl(url);
+            }
           }} onChange={() => { if (preparedUrl) setPreparedUrl(''); }}>
             <div className="form-grid">
               <label>Seu nome<input required name="name" autoComplete="name" placeholder="Como podemos chamar você?" /></label>
@@ -99,9 +127,10 @@ export function LeadForm({ kind }: { kind: 'diagnostico' | 'projeto' }) {
               <label>E-mail (opcional)<input name="email" type="email" autoComplete="email" placeholder="voce@exemplo.com" /></label>
               <label className="field-wide">Algo mais? (opcional)<textarea name="challenge" rows={3} placeholder="Conte o que não pode faltar no seu site." /></label>
             </div>
-            {preparedUrl ? <div className={styles.ready} role="status"><p>Pedido preparado. Abra o WhatsApp e envie a mensagem para concluir sua solicitação.</p><a href={preparedUrl} target="_blank" rel="noopener noreferrer" className="button">Continuar no WhatsApp ↗</a></div>
-              : <button className="button form-submit" type="submit">Preparar pedido de orçamento <span>↗</span></button>}
-            <p className="form-consent">Os dados são usados para este pedido. Eles só serão enviados quando você confirmar a mensagem no WhatsApp.</p>
+            <input type="text" name="isca" tabIndex={-1} autoComplete="off" aria-hidden="true" className={styles.honeypot} />
+            {preparedUrl ? <div className={styles.ready} role="status"><p>Recebemos seu pedido. Abra o WhatsApp para falar com a gente agora.</p><a href={preparedUrl} target="_blank" rel="noopener noreferrer" className="button" onClick={() => { if (leadId.current) void marcarWhatsappAberto(leadId.current); }}>Continuar no WhatsApp ↗</a></div>
+              : <button className="button form-submit" type="submit" disabled={salvando}>{salvando ? 'Enviando…' : <>Enviar pedido de orçamento <span>↗</span></>}</button>}
+            <p className="form-consent">Usamos seus dados para responder a este pedido. Eles são registrados quando você envia o formulário, e você pode pedir a exclusão a qualquer momento.</p>
           </form>
           <button type="button" className={styles.back} onClick={() => goTo(0)}>← Rever minhas respostas</button>
         </>

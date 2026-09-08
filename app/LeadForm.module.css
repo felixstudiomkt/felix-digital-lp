@@ -23,3 +23,5 @@
 .ready .button{width:100%}
 .srOnly{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 @media(max-width:480px){.choice{padding:14px 12px}.navigation{gap:12px}.navigation button{padding-inline:16px}}
+
+.honeypot{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none}
