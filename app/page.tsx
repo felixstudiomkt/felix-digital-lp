@@ -33,28 +33,23 @@ export default function Home() {
     <SiteShell>
       <main className="lp-home">
         <section className="lp-hero">
-          <div className="lp-hero-orbit" aria-hidden="true" />
-          <div className="container lp-hero-grid">
-            <div className="lp-hero-copy">
-              <Eyebrow>SITES PARA NEGÓCIOS QUE QUEREM SER ESCOLHIDOS</Eyebrow>
-              <h1>Seu negócio merece um site que <em>faça sentido.</em></h1>
-              <p className="lp-hero-lead">Criamos sites, landing pages e lojas virtuais para profissionais liberais, empresas locais e prestadores de serviços que precisam transformar presença digital em oportunidades.</p>
-              <div className="hero-actions">
-                <a className="button" href="#diagnostico">Descobrir o melhor formato <span>↗</span></a>
-                <a className="button button-ghost" href={whatsapp}>Falar pelo WhatsApp</a>
-              </div>
-              <p className="lp-hero-note">Briefing claro · prazo de 5 dias úteis · 2 rodadas de revisão</p>
+          <div className="lp-hero-signal" aria-hidden="true" />
+          <div className="container lp-hero-shell">
+            <div className="lp-hero-meta">
+              <Eyebrow>5 DIAS ÚTEIS · 2 RODADAS DE REVISÃO</Eyebrow>
+              <span>FELIX / SITES SOB MEDIDA</span>
             </div>
-            <div className="lp-hero-art" aria-label="Exemplo visual de estrutura de site">
-              <div className="lp-browser-bar"><span /><span /><span /><b>FELIX / WEB PRESENCE</b></div>
-              <div className="lp-browser-content">
-                <div className="lp-browser-kicker">SUA MARCA / SUA OFERTA</div>
-                <strong>Uma presença digital<br /><i>pronta para agir.</i></strong>
-                <p>Mensagem clara. Caminho simples. Próximo passo visível.</p>
-                <div className="lp-browser-cta"><span>Quero conversar</span><b>↗</b></div>
-                <div className="lp-browser-lines"><i /><i /><i /></div>
+            <h1 aria-label="Sites que transformam interesse em contato.">
+              <span>SITES QUE</span>
+              <span><em>transformam</em></span>
+              <span>INTERESSE EM CONTATO.</span>
+            </h1>
+            <div className="lp-hero-bottom">
+              <p>Criamos sites, landing pages e lojas virtuais para profissionais liberais, empresas locais e prestadores de serviços.</p>
+              <div className="lp-hero-actions">
+                <a className="button lp-hero-primary" href="#diagnostico">Descobrir o melhor formato <span>↗</span></a>
+                <a className="lp-hero-link" href="#portfolio">Ver projetos <span>↓</span></a>
               </div>
-              <span className="lp-art-label">ESTRATÉGIA · DESIGN · TECNOLOGIA</span>
             </div>
           </div>
         </section>

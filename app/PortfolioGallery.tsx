@@ -42,7 +42,10 @@ export function PortfolioGallery({ projects }: { projects: PortfolioProject[] })
     <section className={styles.section} id="portfolio" aria-labelledby="portfolio-title" ref={section}>
       <div className={styles.wrap}>
         <div className={styles.head} data-portfolio-reveal>
-          <h2 id="portfolio-title"><span>Sites que já</span><span>estão <em>no ar.</em></span></h2>
+          <div className={styles.titleBlock}>
+            <span className={styles.kicker}><i /> PORTFÓLIO FELIX</span>
+            <h2 id="portfolio-title"><span>Sites que já</span><span>estão <em>no ar.</em></span></h2>
+          </div>
           <p>Cada projeto é desenvolvido com a identidade e o objetivo do negócio. Conheça alguns dos nossos trabalhos publicados.</p>
         </div>
         <div className={styles.gallery} ref={gallery}>
