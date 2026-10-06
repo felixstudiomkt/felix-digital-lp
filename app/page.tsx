@@ -77,8 +77,8 @@ export default function Home() {
 
         <section className="lp-offer">
           <div className="container lp-offer-grid">
-            <div><Eyebrow>CONDIÇÃO PARA LP INSTITUCIONAL</Eyebrow><h2>Uma página profissional para colocar sua oferta em movimento.</h2><p>Para quem precisa de uma presença digital objetiva, bem estruturada e pronta para receber contatos.</p></div>
-            <div className="lp-offer-card"><span className="lp-offer-tag">PROMOÇÃO</span><p className="lp-offer-from">LP institucional</p><strong>R$ 749</strong><p>Inclui criação da página, textos a partir do briefing, versão responsiva e publicação do projeto.</p><ul><li>Prazo de 5 dias úteis após o briefing</li><li>2 rodadas de revisão</li><li>WhatsApp e formulário de contato</li></ul><a className="button" href="#diagnostico">Quero essa condição <span>↗</span></a><small>Domínio, hospedagem, manutenção e Google não estão incluídos nesta oferta.</small></div>
+            <div><Eyebrow>LP INSTITUCIONAL</Eyebrow><h2>Uma página profissional para colocar sua oferta em movimento.</h2><p>Para quem precisa de uma presença digital objetiva, bem estruturada e pronta para receber contatos.</p></div>
+            <div className="lp-offer-card"><p className="lp-offer-from">LP institucional</p><p>Inclui criação da página, textos a partir do briefing, versão responsiva e publicação do projeto.</p><ul><li>Prazo de 5 dias úteis após o briefing</li><li>2 rodadas de revisão</li><li>WhatsApp e formulário de contato</li></ul><a className="button" href="#diagnostico">Solicitar orçamento <span>↗</span></a><small>Domínio, hospedagem, manutenção e Google não estão incluídos neste escopo.</small></div>
           </div>
         </section>
 
