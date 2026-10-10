@@ -18,6 +18,8 @@ const { d1, r2 } = hostingConfig;
 const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === 'seatbelt';
 
 const localBindingConfig = {
+  // Keep the existing production Worker and its domain/bindings during the Git rename.
+  name: 'felix-digital-lp',
   main: 'vinext/server/app-router-entry',
   compatibility_flags: ['nodejs_compat'],
   d1_databases: [

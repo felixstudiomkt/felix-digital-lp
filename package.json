@@ -1,5 +1,5 @@
 {
-  "name": "felix-digital-lp",
+  "name": "felix-digital-site-institucional",
   "version": "0.1.0",
   "private": true,
   "allowScripts": {
@@ -11,6 +11,7 @@
     "node": ">=22.13.0"
   },
   "scripts": {
+    "test": "node scripts/test.mjs",
     "dev": "vinext dev",
     "build": "vinext build",
     "start": "vinext start",

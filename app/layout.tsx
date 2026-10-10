@@ -1,31 +1,16 @@
 import type { Metadata } from 'next';
 import './globals.css';
-
-const siteOrigin = process.env.SITE_URL || 'http://localhost:3000';
+import { SITE_URL } from './lib/solutions';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteOrigin),
-  title: 'FELIX | Sites que fazem sentido para o seu negócio',
-  description: 'Sites institucionais, landing pages, lojas virtuais e sites com agendamento ou orçamento para profissionais, empresas locais e prestadores de serviços.',
-  openGraph: {
-    title: 'FELIX | Sites que fazem sentido para o seu negócio',
-    description: 'Sites, landing pages e lojas virtuais para transformar presença digital em oportunidades.',
-    type: 'website',
-    locale: 'pt_BR',
-    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'FELIX — Sites que vendem. Sistemas que operam. IA que escala.' }],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'FELIX | Sites, Sistemas, Automação e IA',
-    description: 'Sites que vendem. Sistemas que operam. IA que escala.',
-    images: ['/og.png'],
-  },
+  metadataBase: new URL(SITE_URL),
+  title: { default: 'FELIX | Sites, sistemas e IA para o seu negócio', template: '%s | FELIX' },
+  description: 'Infraestrutura digital para empresas venderem e operarem melhor. Sites, marketing, atendimento, CRM e inteligência artificial.',
+  alternates: { canonical: '/' },
+  openGraph: { title: 'FELIX | Sites que vendem. Sistemas que operam. IA que escala.', description: 'Infraestrutura digital para empresas venderem e operarem melhor.', type: 'website', locale: 'pt_BR', url: SITE_URL, siteName: 'FELIX', images: [{ url: '/og.png', width: 1200, height: 630, alt: 'FELIX — Sites, sistemas e inteligência artificial.' }] },
+  twitter: { card: 'summary_large_image', images: ['/og.png'] },
+  icons: { icon: '/favicon.svg' },
 };
-
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return (
-    <html lang="pt-BR">
-      <body>{children}</body>
-    </html>
-  );
+  return <html lang="pt-BR"><body>{children}</body></html>;
 }

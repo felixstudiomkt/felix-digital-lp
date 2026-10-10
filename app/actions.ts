@@ -1,32 +1,7 @@
 'use server';
 
 import { env, waitUntil } from 'cloudflare:workers';
-
-const OBJETIVOS = new Set(['present', 'offer', 'sell', 'schedule']);
-const FUNCIONALIDADES = new Set(['contact', 'checkout', 'booking', 'quote', 'unsure']);
-const PRAZOS = new Set(['soon', 'month', 'later', 'research']);
-const ORIGENS = new Set(['diagnostico', 'projeto']);
-
-const LIMITE = { nome: 120, telefone: 32, negocio: 160, email: 160, observacoes: 2000, indicacao: 120 };
-
-export type LeadEntrada = {
-  origem: string;
-  objetivo: string;
-  funcionalidade: string;
-  prazo: string;
-  indicacao: string;
-  nome: string;
-  telefone: string;
-  negocio: string;
-  email: string;
-  observacoes: string;
-  /**
-   * Campo isca: invisível na página, preenchido apenas por robôs. O nome é
-   * proposital — algo como "website" seria preenchido por gerenciadores de
-   * senha, e cada autofill desses descartaria um lead legítimo em silêncio.
-   */
-  isca: string;
-};
+import { validateLead, objectiveLabel, type LeadEntrada } from './lib/lead-validation';
 
 type LeadGravado = {
   id: string;
@@ -43,12 +18,6 @@ type LeadGravado = {
 
 // O e-mail é lido no celular, entre uma coisa e outra. Mandar "offer" e "soon"
 // obrigaria a consultar o código para entender o lead — então traduzimos aqui.
-const ROTULO_OBJETIVO: Record<string, string> = {
-  present: 'Apresentar o negócio e os serviços',
-  offer: 'Divulgar uma oferta ou campanha',
-  sell: 'Vender produtos pela internet',
-  schedule: 'Receber agendamentos ou orçamentos',
-};
 const ROTULO_FUNCIONALIDADE: Record<string, string> = {
   contact: 'Conhecer o negócio e entrar em contato',
   checkout: 'Escolher produtos e pagar pelo site',
@@ -63,42 +32,15 @@ const ROTULO_PRAZO: Record<string, string> = {
   research: 'ainda pesquisando',
 };
 
-function texto(valor: unknown, limite: number) {
-  return typeof valor === 'string' ? valor.trim().slice(0, limite) : '';
-}
-
-function opcao(valor: unknown, permitidas: Set<string>) {
-  return typeof valor === 'string' && permitidas.has(valor) ? valor : null;
-}
-
 /**
  * Grava o lead antes do repasse para o WhatsApp. O visitante nunca espera pelo
  * CRM: a ida ao DGFlow acontece depois da resposta, via waitUntil.
  */
 export async function registrarLead(entrada: LeadEntrada): Promise<{ id: string | null }> {
-  // Robôs preenchem todos os campos, inclusive os invisíveis. Descartamos em
-  // silêncio para não ensinar o que disparou a rejeição.
-  if (texto(entrada.isca, 200)) return { id: null };
-
-  const nome = texto(entrada.nome, LIMITE.nome);
-  const telefone = texto(entrada.telefone, LIMITE.telefone);
-  const origem = opcao(entrada.origem, ORIGENS);
-
-  // Mesmas exigências do formulário, revalidadas aqui: o cliente pode mentir.
-  if (!nome || !origem || telefone.replace(/\D/g, '').length < 10) return { id: null };
-
-  const lead: LeadGravado = {
-    id: crypto.randomUUID(),
-    nome,
-    telefone,
-    negocio: texto(entrada.negocio, LIMITE.negocio) || null,
-    email: texto(entrada.email, LIMITE.email) || null,
-    observacoes: texto(entrada.observacoes, LIMITE.observacoes) || null,
-    indicacao: texto(entrada.indicacao, LIMITE.indicacao) || null,
-    objetivo: opcao(entrada.objetivo, OBJETIVOS),
-    funcionalidade: opcao(entrada.funcionalidade, FUNCIONALIDADES),
-    prazo: opcao(entrada.prazo, PRAZOS),
-  };
+  const validated = validateLead(entrada);
+  if (!validated) return { id: null };
+  const { origem, ...fields } = validated;
+  const lead: LeadGravado = { id: crypto.randomUUID(), ...fields };
 
   await env.DB.prepare(
     `INSERT INTO leads (id, criado_em, origem, objetivo, funcionalidade, prazo,
@@ -156,10 +98,10 @@ async function notificarPorEmail(lead: LeadGravado, origem: string): Promise<voi
     ['WhatsApp', lead.telefone],
     ['Negócio', lead.negocio ?? '—'],
     ['E-mail', lead.email ?? '—'],
-    ['Objetivo', lead.objetivo ? ROTULO_OBJETIVO[lead.objetivo] : '—'],
+    ['Objetivo', lead.objetivo ? objectiveLabel(lead.objetivo) : '—'],
     ['O visitante precisa', lead.funcionalidade ? ROTULO_FUNCIONALIDADE[lead.funcionalidade] : '—'],
     ['Quer começar', prazo ?? '—'],
-    ['Indicação do quiz', lead.indicacao ?? '—'],
+    ['Solução e faixa', lead.indicacao ?? '—'],
     ['Observações', lead.observacoes ?? '—'],
     ['Origem', origem === 'diagnostico' ? 'Página de diagnóstico' : 'Página de contato'],
     ['Recebido em', quando],
@@ -218,8 +160,8 @@ async function enviarParaCrm(lead: LeadGravado): Promise<void> {
         company: lead.negocio ?? undefined,
         stage: 'novo',
         notes: [
-          `Indicação inicial: ${lead.indicacao ?? '—'}`,
-          `Objetivo: ${lead.objetivo ?? '—'}`,
+          `Solução e faixa: ${lead.indicacao ?? '—'}`,
+          `Objetivo: ${lead.objetivo ? objectiveLabel(lead.objetivo) : '—'}`,
           `Funcionalidade: ${lead.funcionalidade ?? '—'}`,
           `Prazo: ${lead.prazo ?? '—'}`,
           lead.observacoes ? `Observações: ${lead.observacoes}` : null,
