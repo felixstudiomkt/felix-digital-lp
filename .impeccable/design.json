@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-10T16:05:59.087Z",
+  "title": "Design System: FELIX",
+  "extensions": {
+    "colorMeta": {
+      "blue": {
+        "role": "primary",
+        "displayName": "Azul FELIX"
+      },
+      "lime": {
+        "role": "secondary",
+        "displayName": "Verde-lima"
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Preto"
+      },
+      "graphite": {
+        "role": "neutral",
+        "displayName": "Grafite"
+      },
+      "cloud": {
+        "role": "neutral",
+        "displayName": "Claro"
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Papel"
+      }
+    },
+    "typographyMeta": {
+      "wordmark": {
+        "displayName": "Marca",
+        "purpose": "Wordmark FELIX."
+      },
+      "display": {
+        "displayName": "Display da home",
+        "purpose": "Primeira dobra da home."
+      },
+      "headline": {
+        "displayName": "Títulos editoriais",
+        "purpose": "Títulos de seção."
+      },
+      "body": {
+        "displayName": "Corpo",
+        "purpose": "Leitura institucional."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "button-transition",
+        "value": ".18s",
+        "purpose": "Fundo, cor e borda dos botões."
+      },
+      {
+        "name": "hero-enter",
+        "value": ".8s cubic-bezier(.16,1,.3,1)",
+        "purpose": "Entrada do título; desativada com movimento reduzido."
+      },
+      {
+        "name": "project-image",
+        "value": "transform .45s ease",
+        "purpose": "Ampliação para 1.025 no hover."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact-desktop",
+        "value": "1000px"
+      },
+      {
+        "name": "tablet",
+        "value": "800px"
+      },
+      {
+        "name": "hero-mobile",
+        "value": "760px"
+      },
+      {
+        "name": "mobile",
+        "value": "600px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Ação principal",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Ação clara da home e CTA final.",
+      "html": "<button class=\"ds-button\">Conhecer as soluções</button>",
+      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;gap:24px;min-height:52px;padding:13px 23px;border:1px solid var(--paper);border-radius:999px;background:var(--paper);color:var(--ink);font:600 14px/1.5 Geist,Arial,sans-serif;transition:background .18s,color .18s,border-color .18s}.ds-button:hover{background:var(--accent);border-color:var(--accent)}.ds-button:focus-visible{outline:2px solid var(--accent);outline-offset:5px}.ds-button:disabled{opacity:.65;cursor:wait}"
+    },
+    {
+      "name": "Ação secundária",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Ação transparente contornada.",
+      "html": "<button class=\"ds-button ds-ghost\">Ver projetos</button>",
+      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;gap:24px;min-height:52px;padding:13px 23px;border:1px solid var(--paper);border-radius:999px;background:var(--paper);color:var(--ink);font:600 14px/1.5 Geist,Arial,sans-serif;transition:background .18s,color .18s,border-color .18s}.ds-button:hover{background:var(--accent);border-color:var(--accent)}.ds-button:focus-visible{outline:2px solid var(--accent);outline-offset:5px}.ds-button:disabled{opacity:.65;cursor:wait}.ds-ghost{background:transparent;border-color:#636b78;color:var(--paper)}.ds-ghost:hover{background:var(--paper);border-color:var(--paper);color:var(--ink)}"
+    },
+    {
+      "name": "Ação do cabeçalho",
+      "kind": "button",
+      "refersTo": "button-header",
+      "description": "Contato no cabeçalho.",
+      "html": "<button class=\"ds-header-button\">Vamos conversar</button>",
+      "css": ".ds-header-button{min-height:38px;padding:9px 17px;border:1px solid var(--blue);border-radius:6px;background:var(--blue);color:white;font:600 12px/1.5 Geist,Arial,sans-serif;transition:background .18s,border-color .18s}.ds-header-button:hover{background:#3355ca;border-color:#3355ca}.ds-header-button:focus-visible{outline:2px solid var(--accent);outline-offset:5px}"
+    },
+    {
+      "name": "Campo",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "Campo do formulário de contato.",
+      "html": "<label class=\"ds-field-label\">Nome<input class=\"ds-field\" placeholder=\"Seu nome\"></label>",
+      "css": ".ds-field-label{display:flex;flex-direction:column;gap:9px;color:var(--paper);font:400 12px/1.7 Geist,Arial,sans-serif}.ds-field{border:1px solid #636b78;border-radius:2px;width:100%;background:var(--ink);color:var(--paper);padding:12px 13px;min-height:48px;font:400 13px/1.5 Inter,Arial,sans-serif;caret-color:var(--accent)}.ds-field::placeholder{color:var(--muted);opacity:1}.ds-field:focus-visible{outline:2px solid var(--accent);outline-offset:5px}"
+    },
+    {
+      "name": "Navegação",
+      "kind": "nav",
+      "description": "Links centrais do cabeçalho.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#empresa\">A FELIX</a><a href=\"#solucoes\" aria-current=\"page\">Soluções</a><a href=\"#projetos\">Projetos</a></nav>",
+      "css": ".ds-nav{display:flex;align-items:center;gap:32px;font:400 13px/1.7 Geist,Arial,sans-serif;color:var(--muted);background:var(--ink);padding:20px}.ds-nav a{color:inherit;text-decoration:none}.ds-nav a:hover,.ds-nav a[aria-current]{color:var(--paper)}.ds-nav a[aria-current]{text-decoration:underline;text-underline-offset:7px;text-decoration-color:var(--accent)}.ds-nav a:focus-visible{outline:2px solid var(--accent);outline-offset:5px}"
+    },
+    {
+      "name": "Tag de projeto",
+      "kind": "chip",
+      "description": "Etiqueta informativa contornada de projeto.",
+      "html": "<span class=\"ds-tag\">Site institucional</span>",
+      "css": ".ds-tag{display:inline-block;font:400 10px/1.7 Inter,Arial,sans-serif;border:1px solid var(--line);padding:4px 10px;color:var(--muted);background:var(--ink)}"
+    },
+    {
+      "name": "Painel de plano recomendado",
+      "kind": "card",
+      "refersTo": "plan-recommended",
+      "description": "Superfície e borda do plano recomendado; conteúdo ilustrativo de estrutura.",
+      "html": "<article class=\"ds-plan\"><h3>Plano recomendado</h3><p>Detalhes e limites da solução</p><button class=\"ds-button\">Conversar</button></article>",
+      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;gap:24px;min-height:52px;padding:13px 23px;border:1px solid var(--paper);border-radius:999px;background:var(--paper);color:var(--ink);font:600 14px/1.5 Geist,Arial,sans-serif;transition:background .18s,color .18s,border-color .18s}.ds-button:hover{background:var(--accent);border-color:var(--accent)}.ds-button:focus-visible{outline:2px solid var(--accent);outline-offset:5px}.ds-button:disabled{opacity:.65;cursor:wait}.ds-plan{padding:27px 27px 32px;background:#171e31;color:var(--paper);border:1px solid var(--line);border-top:3px solid var(--blue)}.ds-plan h3{font:500 29px/1.1 Geist,Arial,sans-serif;letter-spacing:-.025em;margin:25px 0}.ds-plan p{font:400 14px/1.7 Inter,Arial,sans-serif;color:var(--muted)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Identidade editorial FELIX restaurada",
+    "overview": "A identidade existente na landing do commit `c85ed64` é a referência confirmada pelo usuário. Este documento descreve sua restauração e extensão no código institucional atual: contraste entre superfícies pretas e papel, títulos grandes, marca tipográfica própria, azul e verde-lima.\n\nA composição exata da primeira dobra pertence à home, não a todas as páginas. As demais rotas aplicam a mesma linguagem aos conteúdos institucionais, soluções, comparação de planos, projetos e contato já aprovados. Documentação extraída do código em 10/10/2026; não representa aprovação visual ou publicação.",
+    "keyCharacteristics": [
+      "Preto e papel organizam as áreas editoriais.",
+      "Azul marca o cabeçalho e a área do fundador; lima destaca palavras e estados.",
+      "Nasalization identifica a marca, Geist estrutura os títulos e Inter sustenta a leitura.",
+      "Listas abertas e divisórias organizam soluções e processo.",
+      "Fotografias e capturas dos projetos existentes documentam o trabalho real."
+    ],
+    "rules": [
+      {
+        "name": "The Contraste de Superfícies Rule",
+        "body": "Atribuir texto pela superfície: cloud sobre ink; ink e paper-text sobre paper; ink nos parágrafos, legendas e link do fundador sobre blue.",
+        "section": "colors"
+      },
+      {
+        "name": "The Papéis Tipográficos Rule",
+        "body": "Preservar Nasalization na marca, Geist nos títulos e controles e Inter no corpo; o itálico da home é uma assinatura daquela composição.",
+        "section": "typography"
+      }
+    ],
+    "dos": [
+      "Do preservar o contraste entre preto, azul, lima e papel.",
+      "Do manter os papéis das três fontes locais.",
+      "Do preservar a composição confirmada da primeira dobra da home.",
+      "Do manter comparação de planos, limites e fluxo de contato aprovados.",
+      "Do respeitar foco visível e preferência por movimento reduzido."
+    ],
+    "donts": [
+      "Don't substituir a identidade restaurada por uma nova direção visual.",
+      "Don't inventar métricas, depoimentos, fotografias do fundador ou interfaces de produto.",
+      "Don't tratar diagramas como capturas reais de produtos.",
+      "Don't criar rampas de cores ausentes do código.",
+      "Don't afirmar aprovação visual, envio ou publicação com base neste documento."
+    ]
+  }
+}
