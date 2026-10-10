@@ -74,5 +74,3 @@ https://github.com/felixstudiomkt/felix-digital-site-institucional
 Checkout completo transferido para a pasta solicitada. O Windows mantém a pasta antiga vazia em uso pelo aplicativo.
 Pasta atual: C:\dev\felix-digital-site-institucional.
 Destino solicitado: C:\dev\felix-digital-site-institucional.
-
-
